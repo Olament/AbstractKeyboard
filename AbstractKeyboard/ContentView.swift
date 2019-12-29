@@ -9,8 +9,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var text: String = ""
+    
     var body: some View {
-        Text("Hello, World!")
+        VStack {
+            TextField("", text: $text)
+                .background(Color.gray)
+        }
+    .padding()
     }
 }
 
