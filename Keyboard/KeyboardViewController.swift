@@ -10,11 +10,27 @@ import UIKit
 
 class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, KeyboardViewDatasource {
 
-    var nextKeyboardButton: UIButton!
     public var keyboardView: KeyboardView!
-    let keysLayout = [["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
-                         ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-                         ["Z", "X", "C", "V", "B", "N", "M"]]
+    let mainLayout = [["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+                      ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
+                      ["Shift", "Z", "X", "C", "V", "B", "N", "M", "BackSpace"],
+                      ["ModeChange", "Space", "Return"]]
+    let numberLayout = [["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+                        ["-", "/", "：", "；", "（", "）", "$", "@", "“", "”"],
+                        ["SwitchKey", "。", "，", "、", "？", "！", ".", "BackSpace"],
+                        ["ModeChange", "Space", "Return"]]
+    let symbolLayout = [["【", "】", "｛", "｝", "#", "%", "^", "*", "+", "="],
+                        ["_", "—", "\\", "｜", "～", "《", "》", "€", "&", "·"],
+                        ["SwitchKey", "…","，", "^_^", "？", "！", "‘", "BackSpace"],
+                        ["ModeChange", "Space", "Return"]]
+    
+    public enum Mode {
+        case main
+        case number
+        case symbol
+    }
+    
+    public var mode: Mode = .main
     
     public var shouldLayoutKeyboardConstraintsAutomatically: Bool = true
     private var layoutConstrained: Bool = false
@@ -24,20 +40,6 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /* next button */
-        self.nextKeyboardButton = UIButton(type: .system)
-        
-        self.nextKeyboardButton.setTitle(NSLocalizedString("Next Keyboard", comment: "Title for 'Next Keyboard' button"), for: [])
-        self.nextKeyboardButton.sizeToFit()
-        self.nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
-        
-        self.view.addSubview(self.nextKeyboardButton)
-        
-        self.nextKeyboardButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        
         proxy = self.textDocumentProxy as UITextDocumentProxy
         
         setupKeyboard()
@@ -46,7 +48,9 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let newHeight: CGFloat = 270
+        
+        /* set height of keyboard */
+        let newHeight: CGFloat = 220
         let heightConstraint = NSLayoutConstraint(item: self.view!, attribute:NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem:nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1.0, constant: newHeight)
         heightConstraint.priority = UILayoutPriority(rawValue: 999)
         self.view.addConstraint(heightConstraint)
@@ -56,7 +60,7 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
         self.keyboardView = KeyboardView()
         self.keyboardView.delegate = self
         self.keyboardView.datasource = self
-        self.keyboardView.backgroundColor = UIColor.lightGray
+        self.keyboardView.backgroundColor = UIColor(displayP3Red: 208/256, green: 211/256, blue: 217/256, alpha: 1)
         
         self.view.addSubview(keyboardView)
         self.view.setNeedsUpdateConstraints()
@@ -82,10 +86,10 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
         }
     }
     
-    override func viewWillLayoutSubviews() {
-        self.nextKeyboardButton.isHidden = !self.needsInputModeSwitchKey
-        super.viewWillLayoutSubviews()
-    }
+//    override func viewWillLayoutSubviews() {
+//        self.nextKeyboardButton.isHidden = !self.needsInputModeSwitchKey
+//        super.viewWillLayoutSubviews()
+//    }
     
     override func textWillChange(_ textInput: UITextInput?) {
         // The app is about to change the document's contents. Perform any preparation here.
@@ -93,33 +97,86 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
     
     override func textDidChange(_ textInput: UITextInput?) {
         // The app has just changed the document's contents, the document context has been updated.
-        
-        var textColor: UIColor
-        let proxy = self.textDocumentProxy
-        if proxy.keyboardAppearance == UIKeyboardAppearance.dark {
-            textColor = UIColor.white
-        } else {
-            textColor = UIColor.black
-        }
-        self.nextKeyboardButton.setTitleColor(textColor, for: [])
     }
 
     /// setup keyboard layout
     /* return numbers of rows in keyboard */
     func numberOfRowsInKeyboardView(keyboardView: KeyboardView) -> Int {
-        return self.keysLayout.count
+        switch mode {
+            case .main:
+                return self.mainLayout.count
+            case .symbol:
+                return self.symbolLayout.count
+            case .number:
+                return self.numberLayout.count
+        }
     }
     
     /* returm numbers of keys in specific row */
     func keyboardView(keyboardView: KeyboardView, numberOfKeysInRow row: Int) -> Int {
-        return self.keysLayout[row].count
+        switch mode {
+            case .main:
+                return self.mainLayout[row].count
+            case .symbol:
+                return self.symbolLayout[row].count
+            case .number:
+                return self.numberLayout[row].count
+        }
     }
     
     /* return keyboardkeyview of specific key */
     func keyboardView(keyboardView: KeyboardView, keyAtIndexPath indexPath: NSIndexPath) -> KeyboardKeyView? {
-        return KeyboardKeyView(keyType: .Character,
-                               keyCap: self.keysLayout[indexPath.section][indexPath.item],
-                               outputString: self.keysLayout[indexPath.section][indexPath.item])
+        let key: KeyboardKeyView
+        let currentLayout: [[String]]
+        
+        switch mode {
+            case .main:
+                currentLayout = mainLayout
+            case .number:
+                currentLayout = numberLayout
+            case .symbol:
+                currentLayout = symbolLayout
+        }
+        
+        switch currentLayout[indexPath.section][indexPath.item] {
+            case "Shift":
+                key = KeyboardKeyView(keyType: .Shift,
+                                      keyCap: "↑",
+                                      outputString: "")
+            case "BackSpace":
+                key = KeyboardKeyView(keyType: .Backspace,
+                                      keyCap: "←",
+                                      outputString: "")
+            case "KeyboardChange":
+                key = KeyboardKeyView(keyType: .KeyboardChange,
+                                      keyCap: "🌏",
+                                      outputString: "")
+            case "ModeChange":
+                let keyCap = self.mode == .main ? "123" : "Pingying"
+                key = KeyboardKeyView(keyType: .ModeChange,
+                                      keyCap: keyCap,
+                                      outputString: "")
+            case "Space":
+                key = KeyboardKeyView(keyType: .Space,
+                                      keyCap: "",
+                                      outputString: "")
+            case "Return":
+                key = KeyboardKeyView(keyType: .Return,
+                                      keyCap: "⏎",
+                                      outputString: "")
+            case "SwitchKey":
+                let keyCap = self.mode == .number ? "#+=" : "123"
+                key = KeyboardKeyView(keyType: .SwitchKey,
+                                      keyCap: keyCap,
+                                      outputString: "")
+            default:
+                key = KeyboardKeyView(keyType: .Character,
+                                      keyCap: currentLayout[indexPath.section][indexPath.item],
+                                      outputString: currentLayout[indexPath.section][indexPath.item])
+            
+        }
+        key.selectedColor = .black
+        return key
     }
     
     ///handle input event
@@ -132,26 +189,42 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
     }
     
     @objc func backspaceKeyPressed(key: KeyboardKeyView) {
-        
+        proxy.deleteBackward()
     }
     
     @objc func spaceKeyPressed(key: KeyboardKeyView) {
-        
+        proxy.insertText(" ")
     }
     
     @objc func shiftKeyPressed(key: KeyboardKeyView) {
-        
+        keyboardView.toggleShift()
+        keyboardView.reloadKeys()
     }
     
     @objc func returnKeyPressed(key: KeyboardKeyView) {
-        
+        UIDevice.current.playInputClick()
+        proxy.insertText("\n")
     }
     
     @objc func modeChangeKeyPressed(key: KeyboardKeyView) {
-        
+        if mode == .main {
+            mode = .number
+        } else {
+            mode = .main
+        }
+        keyboardView.reloadKeys()
     }
     
     @objc func nextKeyboardKeyPressed(key: KeyboardKeyView) {
-        
+        self.advanceToNextInputMode()
+    }
+    
+    @objc func switchKeyPressed(key: KeyboardKeyView) {
+        if mode == .number {
+            mode = .symbol
+        } else {
+            mode = .number
+        }
+        keyboardView.reloadKeys()
     }
 }
