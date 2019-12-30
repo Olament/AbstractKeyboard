@@ -20,6 +20,7 @@ public class KeyboardKeyView: UIControl {
         case Period
         case Space
         case Return
+        case SwitchKey
         case None
     }
     
