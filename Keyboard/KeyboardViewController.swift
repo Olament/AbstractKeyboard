@@ -11,9 +11,9 @@ import UIKit
 class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, KeyboardViewDatasource {
 
     public var keyboardView: KeyboardView!
-    let mainLayout = [["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
-                      ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-                      ["Shift", "Z", "X", "C", "V", "B", "N", "M", "BackSpace"],
+    let mainLayout = [["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+                      [" a", "s", "d", "f", "g", "h", "j", "k", "l "],
+                      ["Shift", "z", "x", "c", "v", "b", "n", "m", "BackSpace"],
                       ["ModeChange", "Space", "Return"]]
     let numberLayout = [["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
                         ["-", "/", "：", "；", "（", "）", "$", "@", "“", "”"],
@@ -60,7 +60,11 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
         self.keyboardView = KeyboardView()
         self.keyboardView.delegate = self
         self.keyboardView.datasource = self
-        self.keyboardView.backgroundColor = UIColor(displayP3Red: 208/256, green: 211/256, blue: 217/256, alpha: 1)
+//        self.keyboardView.backgroundColor = UIColor(displayP3Red: CGFloat(208.0)/CGFloat(255.0),
+//                                                    green: CGFloat(211.0)/CGFloat(255.0),
+//                                                    blue: CGFloat(217.0)/CGFloat(256.0),
+//                                                    alpha: 1)
+        self.keyboardView.backgroundColor = UIColor.clear
         
         self.view.addSubview(keyboardView)
         self.view.setNeedsUpdateConstraints()
@@ -173,14 +177,12 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
                 key = KeyboardKeyView(keyType: .Character,
                                       keyCap: currentLayout[indexPath.section][indexPath.item],
                                       outputString: currentLayout[indexPath.section][indexPath.item])
-            
+                if key.keyCap!.contains(" ") {
+                    key.keyCap = key.keyCap!.replacingOccurrences(of: " ", with: "")
+                    key.outputString = key.outputString!.replacingOccurrences(of: " ", with: "")
+                    key.extraPadding = true
+                }
         }
-        
-        key.selectedColor = .black
-        key.backgroundColor = .white
-        key.layer.cornerRadius = 5
-        key.layer.borderWidth = 1
-        key.layer.borderColor = UIColor.black.cgColor
         
         return key
     }
@@ -204,7 +206,6 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
     
     @objc func shiftKeyPressed(key: KeyboardKeyView) {
         keyboardView.toggleShift()
-        keyboardView.reloadKeys()
     }
     
     @objc func returnKeyPressed(key: KeyboardKeyView) {

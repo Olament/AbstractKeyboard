@@ -30,6 +30,10 @@ public protocol KeyboardViewDatasource {
 public class KeyboardView: UIView {
     // background images and language
     
+    let widthPadding: CGFloat = 7.0
+    let heightPadding: CGFloat = 10.0
+    lazy var extraWidthPadding = widthPadding * 4.0
+    
     var datasource: KeyboardViewDatasource?
     var delegate: KeyboardViewDelegate?
     
@@ -100,7 +104,7 @@ public class KeyboardView: UIView {
                     }
                     
                     if let lastView = lastKeyView {
-                        let left = NSLayoutConstraint(item: key, attribute: NSLayoutConstraint.Attribute.left, relatedBy: NSLayoutConstraint.Relation.equal, toItem: lastView, attribute: NSLayoutConstraint.Attribute.right, multiplier: 1.0, constant: 0.0)
+                        let left = NSLayoutConstraint(item: key, attribute: NSLayoutConstraint.Attribute.left, relatedBy: NSLayoutConstraint.Relation.equal, toItem: lastView, attribute: NSLayoutConstraint.Attribute.right, multiplier: 1.0, constant: widthPadding)
                         let top = NSLayoutConstraint(item: key, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: lastView, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1.0, constant: 0.0)
                         let bottom = NSLayoutConstraint(item: key, attribute: NSLayoutConstraint.Attribute.bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: lastView, attribute: NSLayoutConstraint.Attribute.bottom, multiplier: 1.0, constant: 0.0)
                         var width: NSLayoutConstraint?
@@ -112,11 +116,11 @@ public class KeyboardView: UIView {
                         
                         self.addConstraints([left, top, bottom, width!])
                     } else {
-                        let leftEdge = NSLayoutConstraint(item: key, attribute: NSLayoutConstraint.Attribute.left, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self, attribute: NSLayoutConstraint.Attribute.left, multiplier: 1.0, constant: 0.0)
+                        let leftEdge = NSLayoutConstraint(item: key, attribute: NSLayoutConstraint.Attribute.left, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self, attribute: NSLayoutConstraint.Attribute.left, multiplier: 1.0, constant: key.extraPadding ? extraWidthPadding : widthPadding)
                         self.addConstraint(leftEdge)
                         
                         if let lastRow = lastRowView {
-                            let top = NSLayoutConstraint(item: key, attribute: .top, relatedBy:.equal, toItem: lastRow, attribute: .bottom, multiplier: 1.0, constant: 0.0)
+                            let top = NSLayoutConstraint(item: key, attribute: .top, relatedBy:.equal, toItem: lastRow, attribute: .bottom, multiplier: 1.0, constant: heightPadding)
                             let height = NSLayoutConstraint(item: key, attribute: .height, relatedBy: .equal, toItem: lastRow, attribute: .height, multiplier: 1.0, constant: 0.0)
 
                             self.addConstraints([top, height])
@@ -133,7 +137,7 @@ public class KeyboardView: UIView {
                     }
                     
                     if keyIndex == keyRow.count - 1 {
-                        let rightEdge = NSLayoutConstraint(item: key, attribute: NSLayoutConstraint.Attribute.right, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self, attribute: NSLayoutConstraint.Attribute.right, multiplier: 1.0, constant: 0.0)
+                        let rightEdge = NSLayoutConstraint(item: key, attribute: NSLayoutConstraint.Attribute.right, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self, attribute: NSLayoutConstraint.Attribute.right, multiplier: 1.0, constant: key.extraPadding ? -extraWidthPadding : -widthPadding)
                         self.addConstraint(rightEdge)
                     }
                     

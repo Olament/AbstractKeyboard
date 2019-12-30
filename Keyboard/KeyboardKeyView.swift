@@ -23,9 +23,10 @@ public class KeyboardKeyView: UIControl {
         case SwitchKey
         case None
     }
-    
+        
     /* property */
     public var type: KeyType
+    public var extraPadding = false
     
     public var keyCap: String? {
         didSet {
@@ -38,9 +39,13 @@ public class KeyboardKeyView: UIControl {
     public var shifted: Bool = false {
         willSet(newShift) {
             if newShift {
-                self.textLabel.text = self.textLabel.text?.uppercased()
+                //self.textLabel.text = self.textLabel.text?.uppercased()
+                self.keyCap = self.keyCap?.uppercased()
+                self.outputString = self.outputString?.uppercased()
             } else {
-                self.textLabel.text = self.textLabel.text?.lowercased()
+                //self.textLabel.text = self.textLabel.text?.lowercased()
+                self.keyCap = self.keyCap?.lowercased()
+                self.outputString = self.outputString?.lowercased()
             }
         }
     }
@@ -93,6 +98,13 @@ public class KeyboardKeyView: UIControl {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.textLabel.translatesAutoresizingMaskIntoConstraints = false
         
+    
+        self.selectedColor = .black
+        self.backgroundColor = .white
+        self.layer.cornerRadius = 5
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.clear.cgColor
+            
         setupDefaultLabel()
         redrawText()
     }
@@ -111,6 +123,7 @@ public class KeyboardKeyView: UIControl {
         self.textLabel.textAlignment = .center
         self.textLabel.textColor = UIColor.black
         self.textLabel.adjustsFontSizeToFitWidth = true
+        self.textLabel.font = .systemFont(ofSize: 20.0)
         self.addSubview(self.textLabel)
     }
     
