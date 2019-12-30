@@ -90,10 +90,10 @@ public class KeyboardKeyView: UIControl {
     
     public func setup() {
         self.addTarget(self, action: #selector(pressed(sender:)), for: .touchDown)
-        self.addTarget(self, action: #selector(depressed), for: .touchUpInside)
-        self.addTarget(self, action: #selector(cancelled), for: .touchUpOutside)
-        self.addTarget(self, action: #selector(cancelled), for: .touchCancel)
-        self.addTarget(self, action: #selector(cancelled), for: .touchDragExit)
+        //self.addTarget(self, action: #selector(depressed), for: .touchUpInside)
+        //self.addTarget(self, action: #selector(cancelled), for: .touchUpOutside)
+        //self.addTarget(self, action: #selector(cancelled), for: .touchCancel)
+        //self.addTarget(self, action: #selector(cancelled), for: .touchDragExit)
 
         self.translatesAutoresizingMaskIntoConstraints = false
         self.textLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -123,7 +123,7 @@ public class KeyboardKeyView: UIControl {
         self.textLabel.textAlignment = .center
         self.textLabel.textColor = UIColor.black
         self.textLabel.adjustsFontSizeToFitWidth = true
-        self.textLabel.font = .systemFont(ofSize: 20.0)
+        self.textLabel.font = .systemFont(ofSize: 21.0)
         self.addSubview(self.textLabel)
     }
     
@@ -141,7 +141,7 @@ public class KeyboardKeyView: UIControl {
                        animations: {
                         view.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         }, completion: { (_) in
-            UIView.animate(withDuration: 0.15, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 2, options: .curveEaseIn,
+            UIView.animate(withDuration: 0.05, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 2, options: .curveEaseIn,
                            animations: {
                             view.transform = CGAffineTransform(scaleX: 1, y: 1)
             },
@@ -149,13 +149,13 @@ public class KeyboardKeyView: UIControl {
         })
     }
     
-    @objc public func depressed() {
-        //self.backgroundColor = color
-    }
-    
-    @objc public func cancelled() {
-        //self.backgroundColor = color
-    }
+//    @objc public func depressed() {
+//        //self.backgroundColor = color
+//    }
+//
+//    @objc public func cancelled() {
+//        //self.backgroundColor = color
+//    }
     
     /* constraint related */
     public override func updateConstraints() {
