@@ -23,6 +23,7 @@ public protocol KeyboardViewDatasource {
     @objc optional func shiftKeyPressed(key: KeyboardKeyView)
     @objc optional func returnKeyPressed(key: KeyboardKeyView)
     @objc optional func modeChangeKeyPressed(key: KeyboardKeyView)
+    @objc optional func switchKeyPressed(key: KeyboardKeyView)
     @objc optional func nextKeyboardKeyPressed(key: KeyboardKeyView)
 }
 
@@ -87,7 +88,7 @@ public class KeyboardView: UIView {
                     var relativeWidth: CGFloat = 0.0;
                     switch key.type {
                     case .ModeChange:
-                        relativeWidth = 1/8
+                        relativeWidth = 2/8
                     case .KeyboardChange:
                         relativeWidth = 1/8
                     case .Space:
@@ -210,6 +211,8 @@ public class KeyboardView: UIView {
                     delegate?.returnKeyPressed!(key: key)
                 case .Space:
                     delegate?.spaceKeyPressed!(key: key)
+                case .SwitchKey:
+                    delegate?.switchKeyPressed?(key: key)
                 default:
                     delegate?.keyPressed!(key: key)
                 }
