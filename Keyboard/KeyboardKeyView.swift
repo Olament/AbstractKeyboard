@@ -89,7 +89,7 @@ public class KeyboardKeyView: UIControl {
     }
     
     public func setup() {
-        self.addTarget(self, action: #selector(pressed), for: .touchDown)
+        self.addTarget(self, action: #selector(pressed(sender:)), for: .touchDown)
         self.addTarget(self, action: #selector(depressed), for: .touchUpInside)
         self.addTarget(self, action: #selector(cancelled), for: .touchUpOutside)
         self.addTarget(self, action: #selector(cancelled), for: .touchCancel)
@@ -128,18 +128,33 @@ public class KeyboardKeyView: UIControl {
     }
     
     /* touch related method*/
-    @objc public func pressed() {
-        if let selected = self.selectedColor {
-            self.backgroundColor = selected
-        }
+    @objc public func pressed(sender: KeyboardKeyView) {
+//        if let selected = self.selectedColor {
+//            self.backgroundColor = selected
+//        }
+        springAnimate(sender)
+    }
+    
+    /* press animation */
+    private func springAnimate(_ view: KeyboardKeyView) {
+        UIView.animate(withDuration: 0.05, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.5, options: .curveEaseIn,
+                       animations: {
+                        view.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        }, completion: { (_) in
+            UIView.animate(withDuration: 0.15, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 2, options: .curveEaseIn,
+                           animations: {
+                            view.transform = CGAffineTransform(scaleX: 1, y: 1)
+            },
+                           completion: nil)
+        })
     }
     
     @objc public func depressed() {
-        self.backgroundColor = color
+        //self.backgroundColor = color
     }
     
     @objc public func cancelled() {
-        self.backgroundColor = color
+        //self.backgroundColor = color
     }
     
     /* constraint related */
