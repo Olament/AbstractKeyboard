@@ -109,7 +109,7 @@ public class KeyboardKeyView: UIControl {
     
     private func setupDefaultLabel() {
         self.textLabel.textAlignment = .center
-        self.textLabel.textColor = UIColor.white
+        self.textLabel.textColor = UIColor.black
         self.textLabel.adjustsFontSizeToFitWidth = true
         self.addSubview(self.textLabel)
     }
@@ -140,6 +140,7 @@ public class KeyboardKeyView: UIControl {
         }
     }
     
+    /* constraint for keycap or images */
     private func constraintsForContentView(view: UIView) -> [NSLayoutConstraint] {
         var ret: [NSLayoutConstraint] = []
         view.translatesAutoresizingMaskIntoConstraints = false

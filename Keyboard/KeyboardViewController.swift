@@ -48,7 +48,7 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+                
         /* set height of keyboard */
         let newHeight: CGFloat = 220
         let heightConstraint = NSLayoutConstraint(item: self.view!, attribute:NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem:nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1.0, constant: newHeight)
@@ -175,7 +175,13 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
                                       outputString: currentLayout[indexPath.section][indexPath.item])
             
         }
+        
         key.selectedColor = .black
+        key.backgroundColor = .white
+        key.layer.cornerRadius = 5
+        key.layer.borderWidth = 1
+        key.layer.borderColor = UIColor.black.cgColor
+        
         return key
     }
     
