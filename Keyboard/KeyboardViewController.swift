@@ -36,6 +36,7 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
     private var layoutConstrained: Bool = false
     
     private var proxy: UITextDocumentProxy!
+    private var deleteTimer: Timer? // timer for implementing long-pressed backspace
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -198,6 +199,14 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
     
     @objc func backspaceKeyPressed(key: KeyboardKeyView) {
         proxy.deleteBackward()
+    }
+    
+    @objc  func backspaceKeyLongPressed(status: Bool) {
+        if status {
+            deleteTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(backspaceKeyPressed(key:)), userInfo: nil, repeats: true)
+        } else {
+            deleteTimer?.invalidate()
+        }
     }
     
     @objc func spaceKeyPressed(key: KeyboardKeyView) {

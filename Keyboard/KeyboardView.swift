@@ -25,6 +25,7 @@ public protocol KeyboardViewDatasource {
     @objc optional func modeChangeKeyPressed(key: KeyboardKeyView)
     @objc optional func switchKeyPressed(key: KeyboardKeyView)
     @objc optional func nextKeyboardKeyPressed(key: KeyboardKeyView)
+    @objc optional func backspaceKeyLongPressed(status: Bool)
 }
 
 public class KeyboardView: UIView {
@@ -39,7 +40,7 @@ public class KeyboardView: UIView {
     
     var keyRows = [[KeyboardKeyView]]()
     private var layoutConstrained: Bool = false
-    
+                    
     /* init */
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -149,7 +150,15 @@ public class KeyboardView: UIView {
     }
     
     public func addKey(key: KeyboardKeyView, row: Int) {
-        key.addTarget(self, action: #selector(keyPressed), for: .touchUpInside)
+        key.addTarget(self, action: #selector(keyPressed), for: .touchUpInside) // tap
+        
+        /* setup long pressed, only for backsapce */
+        if key.type == .Backspace {
+            let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(keyLongPressed(_:)))
+            longPressGesture.minimumPressDuration = 0.25
+            key.addGestureRecognizer(longPressGesture)
+        }
+        
         if row >= keyRows.count {
             for _ in self.keyRows.count...row {
                 keyRows.append(Array<KeyboardKeyView>())
@@ -220,6 +229,14 @@ public class KeyboardView: UIView {
                 default:
                     delegate?.keyPressed!(key: key)
                 }
+        }
+    }
+    
+    @objc func keyLongPressed(_ sender: UILongPressGestureRecognizer) {
+        if sender.state == .began {
+            delegate?.backspaceKeyLongPressed?(status: true)
+        } else if sender.state == .ended || sender.state == .cancelled {
+            delegate?.backspaceKeyLongPressed?(status: false)
         }
     }
     
