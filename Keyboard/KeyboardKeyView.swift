@@ -98,12 +98,18 @@ public class KeyboardKeyView: UIControl {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.textLabel.translatesAutoresizingMaskIntoConstraints = false
         
-    
+        /* set up appearance of the key */
         self.selectedColor = .black
-        self.backgroundColor = .white
         self.layer.cornerRadius = 5
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.clear.cgColor
+        
+        switch self.type {
+            case .ModeChange, .Backspace, .KeyboardChange, .SwitchKey, .Return:
+                self.backgroundColor = .systemGray2
+            default:
+                self.backgroundColor = .white
+        }
             
         setupDefaultLabel()
         redrawText()
