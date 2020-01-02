@@ -8,9 +8,22 @@
 
 import UIKit
 
-class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, KeyboardViewDatasource {
+class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, KeyboardViewDatasource, UICollectionViewDelegate, UICollectionViewDataSource {
 
     public var keyboardView: KeyboardView!
+    public var selectionView: UICollectionView = { //init the selection view
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.register(KeyboardSelectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        cv.backgroundColor = .clear
+        cv.showsHorizontalScrollIndicator = false
+                
+        return cv
+    }()
+    
     let mainLayout = [["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
                       [" a", "s", "d", "f", "g", "h", "j", "k", "l "],
                       ["Shift", "z", "x", "c", "v", "b", "n", "m", "BackSpace"],
@@ -23,6 +36,8 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
                         ["_", "—", "\\", "｜", "～", "《", "》", "€", "&", "·"],
                         ["SwitchKey", "…","，", "^_^", "？", "！", "‘", "BackSpace"],
                         ["ModeChange", "Space", "Return"]]
+    
+    let data = ["你好", "您好", "我好", "他好", "她好", "她好", "你好", "您好", "我好", "他好", "她好", "她好"]
     
     public enum Mode {
         case main
@@ -37,7 +52,7 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
     
     private var proxy: UITextDocumentProxy!
     private var deleteTimer: Timer? // timer for implementing long-pressed backspace
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,13 +76,13 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
         self.keyboardView = KeyboardView()
         self.keyboardView.delegate = self
         self.keyboardView.datasource = self
-//        self.keyboardView.backgroundColor = UIColor(displayP3Red: CGFloat(208.0)/CGFloat(255.0),
-//                                                    green: CGFloat(211.0)/CGFloat(255.0),
-//                                                    blue: CGFloat(217.0)/CGFloat(256.0),
-//                                                    alpha: 1)
         self.keyboardView.backgroundColor = UIColor.clear
         
+        self.selectionView.delegate = self
+        self.selectionView.dataSource = self
+        
         self.view.addSubview(keyboardView)
+        self.view.addSubview(selectionView)
         self.view.setNeedsUpdateConstraints()
     }
     
@@ -77,9 +92,16 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
         
         if !layoutConstrained {
             if shouldLayoutKeyboardConstraintsAutomatically {
+                /* setup constraint of selection view */
+                selectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+                selectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+                selectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+                selectionView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 20.0).isActive = true
+                
+                /* setup constraint of keyboard view */
                 let left = NSLayoutConstraint(item: self.keyboardView!, attribute: .left, relatedBy: .equal, toItem: self.view, attribute: .left, multiplier: 1.0, constant: 0.0)
                 let top = NSLayoutConstraint(item: self.keyboardView!, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0.0)
-                let right = NSLayoutConstraint(item: self.keyboardView!, attribute: .right, relatedBy: .equal, toItem: self.view, attribute: .right, multiplier: 1.0, constant: 0.0)
+                let right = NSLayoutConstraint(item: self.keyboardView!, attribute: .right, relatedBy: .equal, toItem: self.selectionView, attribute: .right, multiplier: 1.0, constant: 0.0)
                 let bottom = NSLayoutConstraint(item: self.keyboardView!, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: 0.0)
                 left.priority = UILayoutPriority(rawValue: 999)
                 right.priority = UILayoutPriority(rawValue: 999)
@@ -242,5 +264,19 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
             mode = .number
         }
         keyboardView.reloadKeys()
+    }
+    
+    /* controlling the selection view */
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return data.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = selectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! KeyboardSelectionViewCell
+        
+        cell.backgroundColor = .clear
+        cell.label.text = data[indexPath.row]
+        
+        return cell
     }
 }

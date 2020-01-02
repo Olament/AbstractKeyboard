@@ -17,6 +17,7 @@
 		5471C0E523B60C9E00D0BF88 /* Keyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5471C0DE23B60C9E00D0BF88 /* Keyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5471C0ED23B8A9DD00D0BF88 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5471C0EC23B8A9DD00D0BF88 /* KeyboardView.swift */; };
 		5471C0EF23B8AA7900D0BF88 /* KeyboardKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5471C0EE23B8AA7900D0BF88 /* KeyboardKeyView.swift */; };
+		54FE95A023BE473C00E03EB2 /* KeyboardSelectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FE959F23BE473C00E03EB2 /* KeyboardSelectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		5471C0E223B60C9E00D0BF88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5471C0EC23B8A9DD00D0BF88 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		5471C0EE23B8AA7900D0BF88 /* KeyboardKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardKeyView.swift; sourceTree = "<group>"; };
+		54FE959F23BE473C00E03EB2 /* KeyboardSelectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSelectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				5471C0E023B60C9E00D0BF88 /* KeyboardViewController.swift */,
+				54FE959F23BE473C00E03EB2 /* KeyboardSelectionViewCell.swift */,
 				5471C0EC23B8A9DD00D0BF88 /* KeyboardView.swift */,
 				5471C0EE23B8AA7900D0BF88 /* KeyboardKeyView.swift */,
 				5471C0E223B60C9E00D0BF88 /* Info.plist */,
@@ -239,6 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54FE95A023BE473C00E03EB2 /* KeyboardSelectionViewCell.swift in Sources */,
 				5471C0ED23B8A9DD00D0BF88 /* KeyboardView.swift in Sources */,
 				5471C0EF23B8AA7900D0BF88 /* KeyboardKeyView.swift in Sources */,
 				5471C0E123B60C9E00D0BF88 /* KeyboardViewController.swift in Sources */,
