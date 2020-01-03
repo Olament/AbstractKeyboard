@@ -18,6 +18,7 @@
 		5471C0ED23B8A9DD00D0BF88 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5471C0EC23B8A9DD00D0BF88 /* KeyboardView.swift */; };
 		5471C0EF23B8AA7900D0BF88 /* KeyboardKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5471C0EE23B8AA7900D0BF88 /* KeyboardKeyView.swift */; };
 		54FE95A023BE473C00E03EB2 /* KeyboardSelectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FE959F23BE473C00E03EB2 /* KeyboardSelectionViewCell.swift */; };
+		54FE95A223BF1AD600E03EB2 /* KeyboardHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FE95A123BF1AD600E03EB2 /* KeyboardHelpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		5471C0EC23B8A9DD00D0BF88 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		5471C0EE23B8AA7900D0BF88 /* KeyboardKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardKeyView.swift; sourceTree = "<group>"; };
 		54FE959F23BE473C00E03EB2 /* KeyboardSelectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSelectionViewCell.swift; sourceTree = "<group>"; };
+		54FE95A123BF1AD600E03EB2 /* KeyboardHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,9 +125,10 @@
 			isa = PBXGroup;
 			children = (
 				5471C0E023B60C9E00D0BF88 /* KeyboardViewController.swift */,
-				54FE959F23BE473C00E03EB2 /* KeyboardSelectionViewCell.swift */,
 				5471C0EC23B8A9DD00D0BF88 /* KeyboardView.swift */,
 				5471C0EE23B8AA7900D0BF88 /* KeyboardKeyView.swift */,
+				54FE959F23BE473C00E03EB2 /* KeyboardSelectionViewCell.swift */,
+				54FE95A123BF1AD600E03EB2 /* KeyboardHelpers.swift */,
 				5471C0E223B60C9E00D0BF88 /* Info.plist */,
 			);
 			path = Keyboard;
@@ -242,6 +245,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54FE95A223BF1AD600E03EB2 /* KeyboardHelpers.swift in Sources */,
 				54FE95A023BE473C00E03EB2 /* KeyboardSelectionViewCell.swift in Sources */,
 				5471C0ED23B8A9DD00D0BF88 /* KeyboardView.swift in Sources */,
 				5471C0EF23B8AA7900D0BF88 /* KeyboardKeyView.swift in Sources */,
