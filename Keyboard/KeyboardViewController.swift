@@ -66,7 +66,7 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
         super.viewWillAppear(animated)
                 
         /* set height of keyboard */
-        let newHeight: CGFloat = 220
+        let newHeight: CGFloat = 275
         let heightConstraint = NSLayoutConstraint(item: self.view!, attribute:NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem:nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1.0, constant: newHeight)
         heightConstraint.priority = UILayoutPriority(rawValue: 999)
         self.view.addConstraint(heightConstraint)
@@ -96,18 +96,23 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
                 selectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
                 selectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
                 selectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-                selectionView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 20.0).isActive = true
+                selectionView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 60.0).isActive = true
                 
                 /* setup constraint of keyboard view */
-                let left = NSLayoutConstraint(item: self.keyboardView!, attribute: .left, relatedBy: .equal, toItem: self.view, attribute: .left, multiplier: 1.0, constant: 0.0)
-                let top = NSLayoutConstraint(item: self.keyboardView!, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0.0)
-                let right = NSLayoutConstraint(item: self.keyboardView!, attribute: .right, relatedBy: .equal, toItem: self.selectionView, attribute: .right, multiplier: 1.0, constant: 0.0)
-                let bottom = NSLayoutConstraint(item: self.keyboardView!, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: 0.0)
-                left.priority = UILayoutPriority(rawValue: 999)
-                right.priority = UILayoutPriority(rawValue: 999)
-                bottom.priority = UILayoutPriority(rawValue: 999)
-                top.priority = UILayoutPriority(rawValue: 999)
-                self.view.addConstraints([left, right, top, bottom])
+//                let left = NSLayoutConstraint(item: self.keyboardView!, attribute: .left, relatedBy: .equal, toItem: self.view, attribute: .left, multiplier: 1.0, constant: 0.0)
+//                let top = NSLayoutConstraint(item: self.keyboardView!, attribute: .top, relatedBy: .equal, toItem: self.selectionView, attribute: .top, multiplier: 1.0, constant: 0.0)
+//                let right = NSLayoutConstraint(item: self.keyboardView!, attribute: .right, relatedBy: .equal, toItem: self.view, attribute: .right, multiplier: 1.0, constant: 0.0)
+//                let bottom = NSLayoutConstraint(item: self.keyboardView!, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: 0.0)
+//                left.priority = UILayoutPriority(rawValue: 999)
+//                right.priority = UILayoutPriority(rawValue: 999)
+//                bottom.priority = UILayoutPriority(rawValue: 999)
+//                top.priority = UILayoutPriority(rawValue: 999)
+//                self.view.addConstraints([left, right, top, bottom])
+                
+                keyboardView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60.0).isActive = true
+                keyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+                keyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+                keyboardView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
             }
             layoutConstrained = true
         }
@@ -278,5 +283,9 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
         cell.label.text = data[indexPath.row]
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        proxy.insertText(self.data[indexPath.row])
     }
 }
