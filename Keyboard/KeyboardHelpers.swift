@@ -7,3 +7,10 @@
 //
 
 import Foundation
+import UIKit
+
+public extension CGFloat {
+    func adjusted() -> CGFloat {
+        return self * (UIScreen.main.bounds.height / CGFloat(667.0))
+    }
+}

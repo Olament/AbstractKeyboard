@@ -10,21 +10,23 @@ import Foundation
 import UIKit
 
 public class KeyboardSelectionViewCell: UICollectionViewCell {
-    public var label: UILabel = {
-        let lb = UILabel()
-        lb.translatesAutoresizingMaskIntoConstraints = false
-        
-        return lb
-    }()
+    public var label = UILabel()
+    
+    private var isWidthCalculated: Bool = false
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
         
+        //contentView.translatesAutoresizingMaskIntoConstraints = false
+        
         contentView.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        
+        label.font = .systemFont(ofSize: 20.0)
     }
     
     required init?(coder: NSCoder) {

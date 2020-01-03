@@ -14,7 +14,8 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
     public var selectionView: UICollectionView = { //init the selection view
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(KeyboardSelectionViewCell.self, forCellWithReuseIdentifier: "cell")
@@ -37,7 +38,7 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
                         ["SwitchKey", "…","，", "^_^", "？", "！", "‘", "BackSpace"],
                         ["ModeChange", "Space", "Return"]]
     
-    let data = ["你好", "您好", "我好", "他好", "她好", "她好", "你好", "您好", "我好", "他好", "她好", "她好"]
+    let data = ["你好你好你好你好", "您好", "我好", "他好", "她好", "她好", "你好", "您好", "我好", "他好", "她好", "她好"]
     
     public enum Mode {
         case main
@@ -66,7 +67,7 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
         super.viewWillAppear(animated)
                 
         /* set height of keyboard */
-        let newHeight: CGFloat = 275
+        let newHeight: CGFloat = 261.0
         let heightConstraint = NSLayoutConstraint(item: self.view!, attribute:NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem:nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1.0, constant: newHeight)
         heightConstraint.priority = UILayoutPriority(rawValue: 999)
         self.view.addConstraint(heightConstraint)
@@ -96,7 +97,7 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
                 selectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
                 selectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
                 selectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-                selectionView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 60.0).isActive = true
+                selectionView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 55.0).isActive = true
                 
                 /* setup constraint of keyboard view */
 //                let left = NSLayoutConstraint(item: self.keyboardView!, attribute: .left, relatedBy: .equal, toItem: self.view, attribute: .left, multiplier: 1.0, constant: 0.0)
@@ -109,7 +110,7 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
 //                top.priority = UILayoutPriority(rawValue: 999)
 //                self.view.addConstraints([left, right, top, bottom])
                 
-                keyboardView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60.0).isActive = true
+                keyboardView.topAnchor.constraint(equalTo: self.selectionView.bottomAnchor, constant: 0.0).isActive = true
                 keyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
                 keyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
                 keyboardView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true

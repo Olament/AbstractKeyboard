@@ -126,7 +126,7 @@ public class KeyboardView: UIView {
 
                             self.addConstraints([top, height])
                         } else {
-                            let topEdge =  NSLayoutConstraint(item: key, attribute: .top, relatedBy:.equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 20.0)
+                            let topEdge =  NSLayoutConstraint(item: key, attribute: .top, relatedBy:.equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0)
                             self.addConstraint(topEdge)
                         }
                         
