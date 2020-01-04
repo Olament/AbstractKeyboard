@@ -25,10 +25,11 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
         return cv
     }()
     
-    let mainLayout = [["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-                      [" a", "s", "d", "f", "g", "h", "j", "k", "l "],
-                      ["Shift", "z", "x", "c", "v", "b", "n", "m", "BackSpace"],
-                      ["ModeChange", "Space", "Return"]]
+//    let mainLayout = [["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+//                      [" a", "s", "d", "f", "g", "h", "j", "k", "l "],
+//                      ["Shift", "z", "x", "c", "v", "b", "n", "m", "BackSpace"],
+//                      ["ModeChange", "Space", "Return"]]
+    let mainLayout = [["🉑️"], ["KeyboardChange", "Return"]]
     let numberLayout = [["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
                         ["-", "/", "：", "；", "（", "）", "$", "@", "“", "”"],
                         ["SwitchKey", "。", "，", "、", "？", "！", ".", "BackSpace"],
@@ -38,7 +39,8 @@ class KeyboardViewController: UIInputViewController, KeyboardViewDelegate, Keybo
                         ["SwitchKey", "…","，", "^_^", "？", "！", "‘", "BackSpace"],
                         ["ModeChange", "Space", "Return"]]
     
-    let data = ["你好你好你好你好", "您好", "我好", "他好", "她好", "她好", "你好", "您好", "我好", "他好", "她好", "她好"]
+    //let data = ["你好你好你好你好", "您好", "我好", "他好", "她好", "她好", "你好", "您好", "我好", "他好", "她好", "她好"]
+    let data: [String] = []
     
     public enum Mode {
         case main
