@@ -1,5 +1,5 @@
 # Abstract Keyboard
 Abstract Keyboard for Abstract People
 
-# Pinyin inference
+## Pinyin inference
 Hidden markov model, graph theory, statistical learning model
